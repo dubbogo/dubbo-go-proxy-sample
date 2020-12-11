@@ -1,0 +1,31 @@
+name: proxy
+description: proxy sample
+resources:
+  - path: '/api/v1/test-http/user'
+    type: restful
+    description: user
+    methods:
+      - httpVerb: GET
+        onAir: true
+        timeout: 1000ms
+        inboundRequest:
+          requestType: http
+          queryStrings:
+            - name: id
+              required: true
+        integrationRequest:
+          requestType: http
+          mappingParams:
+            - name: queryStrings.id
+              mapTo: queryStrings.id
+          host: "127.0.0.1:1314"
+          path: "/user"
+      - httpVerb: POST
+        onAir: true
+        timeout: 10s
+        inboundRequest:
+          requestType: http
+        integrationRequest:
+          requestType: http
+          host: "127.0.0.1:1314"
+          path: "/user"

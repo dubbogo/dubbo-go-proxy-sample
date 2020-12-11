@@ -1,0 +1,13 @@
+name: proxy
+description: proxy sample
+resources:
+  - path: '/api/v1/test/mock'
+    type: restful
+    description: mock
+    methods:
+      - httpVerb: GET
+        onAir: true
+        mock: true
+        timeout: 100s
+        inboundRequest:
+          requestType: http

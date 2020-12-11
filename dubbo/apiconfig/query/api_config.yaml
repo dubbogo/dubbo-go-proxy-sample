@@ -1,0 +1,85 @@
+name: proxy
+description: proxy sample
+resources:
+  - path: '/api/v1/test-dubbo/user/name'
+    type: restful
+    description: user
+    filters:
+      - filter0
+    methods:
+      - httpVerb: GET
+        onAir: true
+        timeout: 1000ms
+        inboundRequest:
+          requestType: http
+          queryStrings:
+            - name: name
+              required: true
+        integrationRequest:
+          requestType: dubbo
+          mappingParams:
+            - name: queryStrings.name
+              mapTo: 0
+          applicationName: "UserService"
+          interface: "com.dubbogo.proxy.UserService"
+          method: "GetUserByName"
+          paramTypes: [ "java.lang.String" ]
+          group: "test"
+          version: 1.0.0
+          clusterName: "test_dubbo"
+  - path: '/api/v1/test-dubbo/user/name/age'
+    type: restful
+    description: user
+    filters:
+      - filter0
+    methods:
+      - httpVerb: GET
+        onAir: true
+        timeout: 1000ms
+        inboundRequest:
+          requestType: http
+          queryStrings:
+            - name: name
+              required: true
+            - name: age
+              required: true
+        integrationRequest:
+          requestType: dubbo
+          mappingParams:
+            - name: queryStrings.name
+              mapTo: 0
+            - name: queryStrings.age
+              mapTo: 1
+          applicationName: "UserService"
+          interface: "com.dubbogo.proxy.UserService"
+          method: "GetUserByNameAndAge"
+          paramTypes: [ "java.lang.String","java.lang.Integer" ]
+          group: "test"
+          version: 1.0.0
+          clusterName: "test_dubbo"
+  - path: '/api/v1/test-dubbo/user/code'
+    type: restful
+    description: user
+    filters:
+      - filter0
+    methods:
+      - httpVerb: GET
+        onAir: true
+        timeout: 1000ms
+        inboundRequest:
+          requestType: http
+          queryStrings:
+            - name: code
+              required: true
+        integrationRequest:
+          requestType: dubbo
+          mappingParams:
+            - name: queryStrings.code
+              mapTo: 0
+          applicationName: "UserService"
+          interface: "com.dubbogo.proxy.UserService"
+          method: "GetUserByCode"
+          paramTypes: [ "java.lang.Integer" ]
+          group: "test"
+          version: 1.0.0
+          clusterName: "test_dubbo"

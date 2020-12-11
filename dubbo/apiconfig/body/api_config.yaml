@@ -1,0 +1,28 @@
+name: proxy
+description: proxy sample
+resources:
+  - path: '/api/v1/test-dubbo/user'
+    type: restful
+    description: user
+    methods:
+      - httpVerb: POST
+        onAir: true
+        timeout: 10s
+        inboundRequest:
+          requestType: http
+        integrationRequest:
+          requestType: dubbo
+          mappingParams:
+            - name: requestBody.name
+              mapTo: 0
+            - name: requestBody.id
+              mapTo: 1
+            - name: requestBody.age
+              mapTo: 2
+          applicationName: "UserProvider"
+          interface: "com.ic.user.UserProvider"
+          method: "CreateUser"
+          paramTypes: [ "com.ikurento.user.User" ]
+          group: "test"
+          version: 1.0.0
+          clusterName: "test_dubbo"

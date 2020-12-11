@@ -1,0 +1,45 @@
+### 测试单个参数
+POST http://localhost:8888/api/v1/test-dubbo/UserService/com.dubbogo.proxy.UserService?group=test&version=1.0.0&method=GetUserByName
+Content-Type: application/json
+
+{
+  "types": [
+    "java.lang.String"
+  ],
+  "values": "tc"
+}
+
+### 测试多个参数
+POST http://localhost:8888/api/v1/test-dubbo/UserService/com.dubbogo.proxy.UserService?group=test&version=1.0.0&method=UpdateUserByName
+Content-Type: application/json
+
+{
+  "types": [
+    "java.lang.String",
+    "com.dubbogo.proxy.User"
+  ],
+  "values": [
+    "tc",
+    {
+      "id": "0001",
+      "code": 1,
+      "name": "tc",
+      "age": 99
+    }
+  ]
+}
+
+### dubbo query
+
+### one params
+GET http://localhost:8888/api/v1/test-dubbo/user/name?name=tc
+Content-Type: application/json
+
+### multi params
+GET http://localhost:8888/api/v1/test-dubbo/user/code?code=1
+Content-Type: application/json
+
+### multi params
+GET http://localhost:8888/api/v1/test-dubbo/user/name/age?name=tc&age=99
+Content-Type: application/json
+
