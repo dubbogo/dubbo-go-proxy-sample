@@ -10,18 +10,15 @@ resources:
         timeout: 100s
         inboundRequest:
           requestType: http
-          queryStrings:
-            - name: method
-              required: true
-            - name: group
-              required: false
-            - name: version
-              required: false
         integrationRequest:
           requestType: dubbo
           mappingParams:
             - name: requestBody.values
-              mapTo: -1
+              mapTo: 0
+              opt:
+                open: true
+                usable: true
+                name: values
             - name: requestBody.types
               mapTo: 1
               opt:
@@ -52,4 +49,6 @@ resources:
               opt:
                 open: true
                 name: version
+          paramTypes: ["object", "object", "string", "string", "string", "string", "string"]
+          toParamTypes: ["string"]
           clusterName: "test_dubbo"

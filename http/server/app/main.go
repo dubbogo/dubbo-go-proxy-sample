@@ -22,6 +22,7 @@ import (
 	"io/ioutil"
 	"log"
 	"net/http"
+	"strconv"
 )
 
 func main() {
@@ -41,8 +42,9 @@ func user(w http.ResponseWriter, r *http.Request) {
 		err = json.Unmarshal(byts, &user)
 		if err != nil {
 			w.Write([]byte(err.Error()))
+			return
 		}
-		_, ok := cache.Get(user.Name)
+		_, ok := cache.Get(user.ID)
 		if ok {
 			w.Header().Set("Content-Type", "application/json;charset=UTF-8")
 			w.Write([]byte("{\"message\":\"data is exist\"}"))
@@ -57,7 +59,12 @@ func user(w http.ResponseWriter, r *http.Request) {
 		w.Write(nil)
 	case "GET":
 		q := r.URL.Query()
-		u, b := cache.Get(q.Get("name"))
+		id, err := strconv.ParseInt(q.Get("id"), 10, 64)
+		if err != nil {
+			w.Write([]byte(err.Error()))
+			return
+		}
+		u, b := cache.Get(id)
 		//w.WriteHeader(200)
 		if b {
 			b, _ := json.Marshal(u)

@@ -13,16 +13,54 @@ resources:
         integrationRequest:
           requestType: dubbo
           mappingParams:
+            - name: requestBody._all
+              mapTo: 0
+          applicationName: "UserProvider"
+          interface: "com.dubbogo.proxy.UserService"
+          method: "CreateUser"
+          paramTypes: [ "object" ]
+          group: "test"
+          version: 1.0.0
+          clusterName: "test_dubbo"
+      - httpVerb: PUT
+        onAir: true
+        timeout: 10s
+        inboundRequest:
+          requestType: http
+        integrationRequest:
+          requestType: dubbo
+          mappingParams:
+            - name: requestBody._all
+              mapTo: 0
+          applicationName: "UserProvider"
+          interface: "com.dubbogo.proxy.UserService"
+          method: "UpdateUser"
+          paramTypes: [ "object" ]
+          group: "test"
+          version: 1.0.0
+          clusterName: "test_dubbo"
+  - path: '/api/v1/test-dubbo/user2'
+    type: restful
+    description: user
+    filters:
+      - filter0
+    methods:
+      - httpVerb: PUT
+        onAir: true
+        timeout: 1000ms
+        inboundRequest:
+          requestType: http
+        integrationRequest:
+          requestType: dubbo
+          mappingParams:
             - name: requestBody.name
               mapTo: 0
-            - name: requestBody.id
+            - name: requestBody.user
               mapTo: 1
-            - name: requestBody.age
-              mapTo: 2
-          applicationName: "UserProvider"
-          interface: "com.ic.user.UserProvider"
-          method: "CreateUser"
-          paramTypes: [ "com.ikurento.user.User" ]
+          applicationName: "UserService"
+          interface: "com.dubbogo.proxy.UserService"
+          method: "UpdateUserByName"
+          paramTypes: [ "string", "object" ]
           group: "test"
           version: 1.0.0
           clusterName: "test_dubbo"
