@@ -1,7 +1,7 @@
 name: proxy
 description: proxy sample
 resources:
-  - path: '/api/v1/test-http/user'
+  - path: '/api/v1/test-dubbo/user'
     type: restful
     description: user
     methods:
@@ -11,15 +11,17 @@ resources:
         inboundRequest:
           requestType: http
           queryStrings:
-            - name: id
+            - name: name
               required: true
         integrationRequest:
           requestType: http
+          host: 127.0.0.1:8889
+          path: /UserProvider/GetUserByName
           mappingParams:
-            - name: queryStrings.id
-              mapTo: queryStrings.id
-          host: "127.0.0.1:1314"
-          path: "/user"
+            - name: queryStrings.name
+              mapTo: queryStrings.name
+          group: "test"
+          version: 1.0.0
       - httpVerb: POST
         onAir: true
         timeout: 10s
@@ -27,5 +29,3 @@ resources:
           requestType: http
         integrationRequest:
           requestType: http
-          host: "127.0.0.1:1314"
-          path: "/user"
